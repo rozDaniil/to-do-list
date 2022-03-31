@@ -1,0 +1,290 @@
+body {
+    margin: 0;
+    height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+@mixin media($bp) {
+    @if $bp==phone {
+        @media screen and (max-width: 699px) {
+            @content;
+        }
+    }
+    @else if $bp==tablet {
+        @media screen and (min-width: 700px) {
+            @content;
+        }
+    }
+}
+
+:root {
+    --clr-primary: rgb(54, 112, 199);
+    --clr-light: #f4f4f4;
+    --clr-dark: #333333;
+    --clr-warning: rgb(99, 36, 36);
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+.App {
+    height: 100vh;
+    // display: grid;
+    // grid: "header header header header" auto "...... lists  active ......" auto / 1fr minmax(100px, 300px) minmax( 250px, 500px) 1fr;
+    margin: 0;
+    padding: 0 15px;
+    color: var(--clr-light);
+    font-weight: 300;
+    font-size: 1.5rem;
+    font-family: "Work Sans", sans-serif;
+    background-color: var(--clr-primary);
+    @include media(phone) {
+        // grid: "header" auto "lists" auto "active" auto / 1fr;
+        gap: 40px;
+    }
+}
+
+.title {
+    // grid-area: header;
+    margin: -0.3em 0 0.5em;
+    color: rgba(0, 0, 0, 0.1);
+    font-weight: 900;
+    font-size: calc(7vw + 2rem);
+    letter-spacing: 2px;
+    text-align: center;
+    @include media(phone) {
+        margin-bottom: 0;
+    }
+}
+
+.task-list-title {
+    @include media(phone) {
+        margin-top: 0;
+    }
+}
+
+.all-tasks {
+    // grid-area: lists;
+}
+
+.task-list {
+    padding: 0 1.1em;
+    font-size: 1.2rem;
+    line-height: 1.7;
+    list-style: circle;
+}
+
+.list-name {
+    cursor: pointer;
+}
+
+.list-name:hover {
+    opacity: 0.7;
+}
+
+form {
+    display: flex;
+}
+
+.btn {
+    padding: 0;
+    color: inherit;
+    background: 0;
+    border: 0;
+    cursor: pointer;
+}
+
+.btn.create {
+    margin-right: 0.25em;
+    font-weight: 900;
+    font-size: 1.5rem;
+    transition: opacity 250ms ease-in;
+}
+
+.btn.create:hover {
+    opacity: 0.7;
+}
+
+.btn.delete {
+    font-size: 1rem;
+    opacity: 0.7;
+    transition: color 200ms;
+}
+
+.btn.delete:hover {
+    color: var(--clr-warning);
+}
+
+.new {
+    order: 2;
+    padding: 0.25em;
+    color: inherit;
+    font-size: inherit;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid currentColor;
+    outline: none;
+    transition: border-bottom 150ms ease-in;
+}
+
+.new::placeholder {
+    opacity: 0.4;
+}
+
+.new:focus {
+    border-bottom-width: 3px;
+}
+
+.new:focus::placeholder {
+    opacity: 0.15;
+}
+
+.new.list {
+    font-size: 1.1rem;
+}
+
+.new.task {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.active-list {
+    font-weight: 700;
+}
+
+.todo-list {
+    --spacer: 2rem;
+    grid-area: active;
+    color: var(--clr-dark);
+    background: var(--clr-light);
+}
+
+.todo-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacer);
+    background: #e4e4e4;
+    @include media(phone) {
+        flex-direction: column;
+    }
+}
+
+.list-title {
+    margin: 0 1em 0 0;
+    @include media(phone) {
+        margin: 0;
+    }
+}
+
+.task-count {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.todo-body {
+    position: relative;
+    padding: var(--spacer);
+}
+
+.new-task-creator .create {
+    color: var(--clr-primary);
+}
+
+[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.task label {
+    position: relative;
+    display: flex-inline;
+    align-items: center;
+}
+
+.task {
+    position: relative;
+    margin-bottom: 1.25em;
+}
+
+.task::after {
+    position: absolute;
+    right: 0;
+    bottom: -0.5em;
+    left: 0;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.1;
+    content: "";
+}
+
+.custom-checkbox {
+    --size: 0.75em;
+    display: inline-block;
+    width: var(--size);
+    height: var(--size);
+    margin-right: var(--size);
+    border: 2px solid currentColor;
+    border-radius: 50%;
+    transform: scale(1);
+    cursor: pointer;
+    transition: transform 300ms ease-in-out;
+}
+
+.task:hover .custom-checkbox,
+[type="checkbox"]:focus+label .custom-checkbox {
+    color: var(--clr-primary);
+    transform: scale(1.2);
+}
+
+[type="checkbox"]:checked+label .custom-checkbox {
+    background: var(--clr-primary);
+    border-color: var(--clr-primary);
+    box-shadow: inset 0 0 0 2px white;
+}
+
+[type="checkbox"]:checked+label {
+    opacity: 0.5;
+}
+
+.task label::after {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    left: 1.5em;
+    height: 3px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 150ms ease-in-out;
+    content: "";
+}
+
+[type="checkbox"]:checked+label::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+.delete-stuff {
+    position: absolute;
+    bottom: -35px;
+    left: 0;
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    color: #f4f4f4;
+}
+
+.color-buttons {
+    color: inherit;
+}
