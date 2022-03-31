@@ -11,6 +11,10 @@ export const CreateNewTaskForm = ({
 }) => {
   const onSubmitHandler = (e) => {
     e.preventDefault();
+    if (taskName === "") {
+      alert("Вы должны дать название!!!");
+      return;
+    }
     addTaskHandler(taskName);
   };
 

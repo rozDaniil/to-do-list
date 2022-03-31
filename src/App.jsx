@@ -1,16 +1,18 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+
 import { CreateNewTaskForm } from "./components/CreateNewTaskForm";
 import { CurrentTaskList } from "./components/CurrentTaskList";
 import { ToDoList } from "./components/ToDoList";
+import { addTask, addToTasks } from "./redux/actions/tasks";
 
 function App() {
-  const [taskName, setTaskName] = React.useState("");
-  const [taskNameList, setTaskNameList] = React.useState([]);
-  console.log(taskNameList);
+  const dispatch = useDispatch();
+  const { taskName, tasksList } = useSelector(({ tasks }) => tasks);
 
-  const taskNameHandler = (e) => setTaskName(e.target.value);
+  const taskNameHandler = (e) => dispatch(addTask(e.target.value));
   const taskNameListHandler = (value) => {
-    setTaskNameList([...taskNameList, value]);
+    dispatch(addToTasks(value));
   };
 
   return (
@@ -20,7 +22,7 @@ function App() {
       <div style={{ display: "flex", justifyContent: "space-around" }}>
         <div className="all-tasks container--mobile">
           <h2 className="task-list-title">My lists</h2>
-          <CurrentTaskList tasks={taskNameList} />
+          <CurrentTaskList tasks={tasksList} />
           <CreateNewTaskForm
             classes="new list"
             placeholder="new list name"
@@ -31,17 +33,17 @@ function App() {
           />
         </div>
 
-        <ToDoList />
+        {tasksList.length > 0 ? <ToDoList /> : <ToDoList />}
       </div>
 
-      <template id="task-template">
+      {/* <template id="task-template">
         <div className="task">
           <input type="checkbox" />
           <label>
             <span className="custom-checkbox"></span>
           </label>
         </div>
-      </template>
+      </template> */}
     </div>
   );
 }
