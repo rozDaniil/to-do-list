@@ -50,11 +50,11 @@ const toDo = (state = initialState, action) => {
                 ...state,
                 doneTasks: {
                     ...state.doneTasks,
-                    [state.header]: state.doneTasks[state.header] ? [...state.doneTasks[state.header],
+                    [state.header]: Array.from(new Set(state.doneTasks[state.header] ? [...state.doneTasks[state.header],
                         action.payload
                     ] : [
                         action.payload
-                    ],
+                    ])),
                 }
             }
         case 'CLEAR_DONE_TASKS':

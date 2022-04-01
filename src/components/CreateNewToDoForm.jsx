@@ -1,4 +1,6 @@
 import React from "react";
+import { useForm } from "react-hook-form";
+
 import { Button } from "./Button";
 
 export const CreateNewToDoForm = ({
@@ -8,6 +10,13 @@ export const CreateNewToDoForm = ({
   toDoName,
   addToDoTask,
 }) => {
+  const {
+    register,
+    formState: { errors },
+  } = useForm({
+    mode: "onBlur",
+  });
+
   const onSubmitHandler = (e) => {
     e.preventDefault();
     // if (taskName === "" || taskName.split("").includes(",")) {
@@ -18,14 +27,23 @@ export const CreateNewToDoForm = ({
   };
 
   return (
-    <form onSubmit={onSubmitHandler}>
-      <input
-        value={toDoName}
-        onChange={toDoNameHandler}
-        className={classes}
-        placeholder={placeholder}
-      />
-      <Button create name="+" />
-    </form>
+    <>
+      <form onSubmit={onSubmitHandler}>
+        <input
+          value={toDoName}
+          className={classes}
+          placeholder={placeholder}
+          {...register("todo", {
+            required: "Введите задачу",
+            onChange: toDoNameHandler,
+            minLength: { value: 3, message: "Минимум 3 символa" },
+          })}
+        />
+        <Button create name="+" />
+      </form>
+      <div style={{ height: 20 }}>
+        {errors?.todo && <p>{errors?.todo?.message || "Error!"}</p>}
+      </div>
+    </>
   );
 };

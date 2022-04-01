@@ -1,4 +1,6 @@
 import React from "react";
+import { useForm } from "react-hook-form";
+
 import { Button } from "./Button";
 
 export const CreateNewTaskForm = ({
@@ -8,6 +10,13 @@ export const CreateNewTaskForm = ({
   addTaskHandler,
   taskName,
 }) => {
+  const {
+    register,
+    formState: { errors },
+  } = useForm({
+    mode: "onBlur",
+  });
+
   const onSubmitHandler = (e) => {
     e.preventDefault();
     if (taskName === "" || taskName.split("").includes(",")) {
@@ -18,14 +27,23 @@ export const CreateNewTaskForm = ({
   };
 
   return (
-    <form onSubmit={onSubmitHandler}>
-      <input
-        value={taskName}
-        onChange={nameHandler}
-        className={classes}
-        placeholder={placeholder}
-      />
-      <Button create name="+" />
-    </form>
+    <>
+      <form onSubmit={onSubmitHandler}>
+        <input
+          value={taskName}
+          className={classes}
+          placeholder={placeholder}
+          {...register("task", {
+            required: "Введите имя списка задач",
+            onChange: nameHandler,
+            minLength: { value: 3, message: "Минимум 3 символa" },
+          })}
+        />
+        <Button create name="+" />
+      </form>
+      <div style={{ height: 40 }}>
+        {errors?.task && <p>{errors?.task?.message || "Error!"}</p>}
+      </div>
+    </>
   );
 };
