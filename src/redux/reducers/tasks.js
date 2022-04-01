@@ -9,12 +9,17 @@ const tasks = (state = initialState, action) => {
             return {
                 ...state,
                 taskName: action.payload,
-                // tasksList: [...state.tasksList, action.payload]
             }
         case 'ADD_TO_TASKS':
             return {
                 ...state,
                 tasksList: [...state.tasksList, action.payload]
+            }
+        case 'DELETE_TASK':
+            const xxx = state.tasksList.filter(item => item !== action.payload)
+            return {
+                ...state,
+                tasksList: xxx
             }
         default:
             return state

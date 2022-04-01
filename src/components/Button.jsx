@@ -1,6 +1,13 @@
 import React from "react";
 
-export const Button = ({ name, colorButtons, del, create, label }) => {
+export const Button = ({
+  name,
+  colorButtons,
+  del,
+  create,
+  onDeleteToDoHandler,
+  onDeleteTaskHandler,
+}) => {
   const classes = ["btn"];
   if (del) {
     classes.push("delete");
@@ -12,7 +19,10 @@ export const Button = ({ name, colorButtons, del, create, label }) => {
     classes.push("create");
   }
   return (
-    <button aria-label={label} className={classes.join(" ")}>
+    <button
+      onClick={onDeleteToDoHandler || onDeleteTaskHandler}
+      className={classes.join(" ")}
+    >
       {name}
     </button>
   );

@@ -1,27 +1,27 @@
 import React from "react";
 import { Button } from "./Button";
 
-export const CreateNewTaskForm = ({
+export const CreateNewToDoForm = ({
   classes,
   placeholder,
-  nameHandler,
-  addTaskHandler,
-  taskName,
+  toDoNameHandler,
+  toDoName,
+  addToDoTask,
 }) => {
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    if (taskName === "" || taskName.split("").includes(",")) {
-      // alert("Вы должны дать название!!!");
-      return;
-    }
-    addTaskHandler(taskName);
+    // if (taskName === "" || taskName.split("").includes(",")) {
+    //   // alert("Вы должны дать название!!!");
+    //   return;
+    // }
+    addToDoTask(toDoName);
   };
 
   return (
     <form onSubmit={onSubmitHandler}>
       <input
-        value={taskName}
-        onChange={nameHandler}
+        value={toDoName}
+        onChange={toDoNameHandler}
         className={classes}
         placeholder={placeholder}
       />
